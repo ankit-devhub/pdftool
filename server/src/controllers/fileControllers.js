@@ -6,7 +6,7 @@
 
 const fileupload = (req, res) => {
 
-    res.send('file uploaded successfully');
+    res.send(req.file);
     console.log(req.file)
 }
 
