@@ -5,8 +5,7 @@ const fileupload = (req, res) => {
 
 
 
-const filesFetch = (req, res) => {
-
+const getUploadedFiles = (req, res) => {
     const fileName = req.params.fn;
     if(!fileName) {
         res.status(400).json({ error: 'File name is required' });
@@ -23,6 +22,24 @@ const filesFetch = (req, res) => {
 }
 
 
+const getProcessedFiles = (req, res) => {
+    const fileName = req.params.fn;
+    if(!fileName) {
+        res.status(400).json({ error: 'File name is required' });
+    }
+    const filePath = require('path').join(__dirname, '../../assets/processed', fileName);
+
+    if (require('fs').existsSync(filePath)) {
+        // Send the file
+        res.sendFile(filePath);
+    } else {
+        // File not found
+        res.status(404).json({ error: 'File not found' });
+    }
+}
+
+
+
 
 
 const exportFile = async (req, res) => {
@@ -30,6 +47,9 @@ const exportFile = async (req, res) => {
     const { PDFDocument, rgb } = require('pdf-lib');
 
     async function extractPages(inputPath, outputPath, selectedPages) {
+        if(selectedPages.length === 0) {
+            
+        }
         try {
             const pdfBytes = await require('fs').promises.readFile(inputPath);
             const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -61,6 +81,7 @@ const exportFile = async (req, res) => {
         const outputPdfPath = require('path').join(__dirname, '../../assets/processed', generatePdfName);
         const selectedPages = req.body.selectedPages;
 
+       
         await extractPages(inputPdfPath, outputPdfPath, selectedPages);
 
         res.json({ message: 'PDF created successfully', fileName: generatePdfName });
@@ -76,4 +97,4 @@ const exportFile = async (req, res) => {
 
 
 
-module.exports = { fileupload, filesFetch, exportFile };
+module.exports = { fileupload, getUploadedFiles, getProcessedFiles, exportFile };
