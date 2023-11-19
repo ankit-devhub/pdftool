@@ -5,7 +5,7 @@ const storage = multer.diskStorage({
         return cb(null, './assets/uploads');
     },
     filename: (req, file, cb) => {
-        return cb(null, file.originalname + '-' + Date.now());
+        return cb(null, "u" + Date.now() + Math.round(Math.random() * 1E9));
     },
 });
 
