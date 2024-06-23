@@ -31,6 +31,7 @@ const getProcessedFiles = (req, res) => {
 
     if (require('fs').existsSync(filePath)) {
         // Send the file
+        console.log(filePath);
         res.sendFile(filePath);
     } else {
         // File not found
