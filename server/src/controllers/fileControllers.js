@@ -48,7 +48,8 @@ const exportFile = async (req, res) => {
 
     async function extractPages(inputPath, outputPath, selectedPages) {
         if(selectedPages.length === 0) {
-            
+            console.log('No pages selected');
+            return;
         }
         try {
             const pdfBytes = await require('fs').promises.readFile(inputPath);
