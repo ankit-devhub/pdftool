@@ -8,6 +8,7 @@ const fileupload = (req, res) => {
 const getUploadedFiles = (req, res) => {
     const fileName = req.params.fn;
     if(!fileName) {
+        console.log('File name is required');
         res.status(400).json({ error: 'File name is required' });
     }
     const filePath = require('path').join(__dirname, '../../assets/uploads', fileName);
